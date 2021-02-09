@@ -25,9 +25,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'f2zrrcd+zlhlod4rb&d^(&t-n^j)ny@u_&^e@%gwptoc&(taee'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -88,7 +88,7 @@ DATABASES = {
         'HOST': 'localhost',
         'PORT': '3306',
         'USER': 'root',
-        'PASSWORD': 'SQLmima6666...',
+        'PASSWORD': 'wzj1143',
         'OPTIONS': {
             "init_command": "SET foreign_key_checks = 0;",
         }
@@ -134,5 +134,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),'/home/wzj/onlineshop/static',]
+STATIC_ROOT = os.path. join (BASE_DIR, '/static/' )
 

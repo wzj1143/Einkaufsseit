@@ -13,9 +13,13 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
+from django.views.static import serve
 from django.contrib import admin
 from django.urls import path, re_path
-
+from django.conf import settings
+from django.conf.urls.static import static
+from Einkaufswagen import views
 
 from Einkaufswagen.views import Wagen_legen, Wagen_Seite, Waren_delete, Bestellung_abgeben_Seite, \
     Bestellung_abegeben_fertig, Bestellung_erfolgreich
@@ -23,11 +27,10 @@ from Users.views import User_Register, User_abmelden, User_anmelden, user_Bestel
 from Waren.views import index, Waren_Seite, Waren_katg, angemeldete_homepage
 
 urlpatterns = [
+    path('', views.index),
     path('admin/', admin.site.urls),
     # Homepage, nicht anmelden
     re_path(r'^index/$', index),
-    # Homepage, anmelden
-    re_path(r'^angemeldete_homepage/$', angemeldete_homepage),
     # Waren_Seite
     re_path(r'^Waren_Seite/$', Waren_Seite),
     # In den Warenkorb legen
@@ -52,4 +55,5 @@ urlpatterns = [
     re_path(r'^User_abmelden/$', User_abmelden),
     # User Bestellungen
     re_path(r'^user_Bestellungen/$', user_Bestellungen),
+    re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}, name='static'),
 ]

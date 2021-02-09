@@ -14,7 +14,8 @@ from Waren.models import WarenInfo
 
 
 # In den Warenkorb legen
-
+def index(request):
+	return render(request, 'index.html')
 def Wagen_legen(request):
     """ in Warenkorb und cookie legen, in cookie ist: Waren_id:menge"""
     # Wenn nicht angemelden, muss zuerst anmelden
