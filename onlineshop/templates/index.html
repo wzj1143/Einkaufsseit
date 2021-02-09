@@ -1,0 +1,154 @@
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<title>biozon</title>
+	<link rel="Shortcut Icon" href="/static/img/biozon.png">
+	<meta name="description" content="2020 Verteilte Systeme Projekt "/>
+	<link rel="stylesheet" href="/static/css/main.css"/>
+	<style>
+		body {
+			text-align: center;
+			background-color: white;
+		}
+		table {
+			margin: auto;
+		}
+	</style>
+	{% load static %}
+</head>
+
+
+
+
+
+<body style="overflow-y: scroll;">
+{% load static %}
+<!-- Header here -->
+<div style="position:fixed; top:0; left:0; width:100%; height:140; background-color:#faf9f6; z-index: 3; ">
+
+	<!-- logo -->
+	<img src="/static/img/biozon.png" alt="biozon" width="100" height="100" style="display:inline; float:left; padding-left:20%;" align="left" />
+
+	<!-- kategorie -->
+	<div class="main" style="display:inline; float:right; padding-right:20%;" >
+
+		<a href="/Waren_katg/?katg=2" class="link" style="color:white"><div class="headerblock hb2" align="right" > Gemüse </div></a>
+		<a href="/Waren_katg/?katg=3" class="link" style="color:white"><div class="headerblock hb2" align="right"> Obst </div></a>
+		<a href="/Waren_katg/?katg=1" class="link" style="color:white"><div class="headerblock hb2" align="right"> Fleisch </div></a>
+		<a href="/Waren_katg/?katg=4" class="link" style="color:white"><div class="headerblock hb2" align="right"> Getränke </div></a>
+
+	<!-- warenkorb -->
+		<div class="headerwarenkorbblock hb1"><div style="position:absolute; left:20px;"><a  class="link" style="color:white; z-index: 3;">
+			<img src="/static/img/warenkorb-icon.png" alt="biozon" width="30" height="30" align="center" style="padding-top:7;padding-bottom:20" />
+			<input type="button" value={{waren_gesamt_Menge_in_Einkaufswagen}} style="width: 25px; height: 25px; border-radius:50%;border: none; color:black; text-color:white;" />
+			<div class="downbutton" style="left:-20px;"><ul>
+				<li><a href="/Wagen_Seite">zum Warenkorb</a></li>
+				<li><a href="/Bestellung_abgeben_Seite">zur Kasse gehen</a></li>
+			</ul></div>
+		</a></div></div>
+
+		<!-- User -->
+		<div class="headerwarenkorbblock hb1"><div style="position:absolute; left:20px;"><a  class="link" style="color:white; z-index: 3;">
+			<img src="/static/img/user-icon-png-7-transparent.png" alt="biozon" width="30" height="30" align="center" style="padding-top:7;padding-bottom:20" />
+				{% if request.session.is_login %}
+					<input type="button" value="✔" style="width: 25px; height: 25px; border-radius:50%;border: none; color:black; text-color:white;" />
+				{% else %}
+					<input type="button" value="✘" style="width: 25px; height: 25px; border-radius:50%;border: none; color:black; text-color:white;" />
+
+				{% endif %}
+			<div class="downbutton" style="left:-20px;"><ul>
+				{% if request.session.is_login %}
+				<a><h3 align=left style="line-height:40px; padding-left:20px;">Hello,{{ request.session.user_name }}</h3></a>
+				<li><a href="/User_abmelden/"  class="link">abmelden</a></li>
+				<li><a href="/user_Bestellungen/"  class="link">Meine Bestellungen</a></li>
+				{% else %}
+				<li><a href="/User_anmelden/" class="link">anmelden</a></li>
+				<li><a href="/User_Register/" class="link">registeren</a></li>
+				{% endif %}
+
+
+			</ul></div>
+		</a></div></div>
+
+
+
+
+	</div>
+
+</div>
+<--
+
+
+	</div>
+</div>
+
+
+
+
+<!-- Content here -->
+<div align="center" style="position:related;padding-top:160px; padding-width:20% width:80%;">
+	<!--top picture-->
+	<div style="position:relative; width:80%;">
+		<img src="/static/img/biofoto.jpg" width="80%" height="400px" style="z-index:0;"/>
+		<div align="center" style="position:absolute; width:80%; height:400px; line-height:400px;   left:10%; top:0; color:#ffff99; font-family:Freestyle Script; font-size:150px; z-index:1;">
+		Bio Life
+
+		</div>
+	</div>
+	<!-- TODAY'S -- SALE -- NEWS -->
+	<div width="80%">
+		<a ><div class="headerblock hb3" style="border-style:dashed; border-width:5px; border-color:white;">WELCOME</div></a>
+		<a ><div class="headerblock hb3" style="border-style:double; border-width:5px; border-color:#ffff99;">TO</div></a>
+		<a ><div class="headerblock hb3" style="border-style:dashed; border-width:5px; border-color:white;">BIOZON</div></a>
+	</div>
+
+	<!-- Neue Produkte -->
+	<div class="hb4" style="left:10%;">
+		<a>NEUE PRODUKTE</a>
+	</div>
+	<div style="width:60%; float:center;">
+		{% for neu_list in all_neu_list %}
+			{% for neu in neu_list %}
+				<a href="/Waren_Seite/?id={{neu.id}}" class="link"><div class="hb5" >
+				<img src="/static/Waren/{{ neu.Ware_Bild }}.jpg" alt={{neu.Ware_Name}} width="150" height="150"/>
+				<br style="font-size:15px;">{{neu.Ware_Name}}</br>
+				<b style="font-size:23px;">{{neu.Ware_Preis}} Euro</b>
+				</div></a>
+			{% endfor %}
+		{% endfor %}
+
+		<a href="#" class="link"><div class="hb5" style="vertical-align:top;">
+			<b style="font-size:23px;line-height:220px;">MORE ▶▷</b>
+		</div></a>
+
+	</div>
+
+	<div class="hb4" style="left:10%;">
+		<a>ALLE PRODUKTE</a>
+	</div>
+
+	<div style="width:60%; float:center;">
+		{% for neu_list in all_all_list %}
+			{% for neu in neu_list %}
+				<a href="/Waren_Seite/?id={{neu.id}}" class="link"><div class="hb5" >
+				<img src="/static/Waren/{{ neu.Ware_Bild }}.jpg" alt={{neu.Ware_Name}} width="150" height="150"/>
+				<br style="font-size:15px;">{{neu.Ware_Name}}</br>
+				<b style="font-size:23px;">{{neu.Ware_Preis}} Euro</b>
+				</div></a>
+			{% endfor %}
+		{% endfor %}
+
+		<a href="#" class="link"><div class="hb5" style="vertical-align:top;">
+			<b style="font-size:23px;line-height:220px;">MORE ▶▷</b>
+		</div></a>
+
+
+	</div>
+
+
+</div>
+<div style="height:200px; width:100%; background:white;" ></div>
+</body>
+
+
+</html>

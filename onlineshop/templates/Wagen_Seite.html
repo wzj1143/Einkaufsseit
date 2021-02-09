@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8"/>
+	<title>Wagen Seite</title>
+	<base href="/">
+	<link rel="Shortcut Icon" href="/static/img/biozon.png">
+	<meta name="description" content="2020 Verteilte Systeme Projekt "/>
+	<link rel="stylesheet" href="/static/css/main.css"/>
+	<style>
+		body {
+			text-align: center;
+			background-color: white;
+		}
+		table {
+			margin: auto;
+		}
+	</style>
+	{% load static %}
+</head>
+
+<body style="overflow-y: scroll;">
+<!-- Header here -->
+<div style="position:fixed; top:0; left:0; width:100%; height:140; background-color:#faf9f6; z-index: 3; ">
+
+	<!-- logo -->
+	<a href="/index"> <img src="/static/img/biozon.png" alt="biozon" width="100" height="100" style="display:inline; float:left; padding-left:20%;" align="left" /></a>
+	<!-- kategorie -->
+	<div class="main" style="display:inline; float:right; padding-right:20%;" >
+
+		<a href="/Waren_katg/?katg=2" class="link" style="color:white"><div class="headerblock hb2" align="right" > Gemüse </div></a>
+		<a href="/Waren_katg/?katg=3" class="link" style="color:white"><div class="headerblock hb2" align="right"> Obst </div></a>
+		<a href="/Waren_katg/?katg=1" class="link" style="color:white"><div class="headerblock hb2" align="right"> Fleisch </div></a>
+		<a href="/Waren_katg/?katg=4" class="link" style="color:white"><div class="headerblock hb2" align="right"> Getränke </div></a>
+
+	<!-- warenkorb -->
+		<div class="headerwarenkorbblock hb1"><div style="position:absolute; left:20px;"><a  class="link" style="color:white; z-index: 3;">
+			<img src="/static/img/warenkorb-icon.png" alt="biozon" width="30" height="30" align="center" style="padding-top:7;padding-bottom:20" />
+			<input type="button" value={{waren_gesamt_Menge_in_Einkaufswagen}} style="width: 25px; height: 25px; border-radius:50%;border: none; color:black; text-color:white;" />
+			<div class="downbutton" style="left:-20px;"><ul>
+				<li><a href="/Wagen_Seite">zum Warenkorb</a></li>
+				<li><a href="/Bestellung_abgeben_Seite">zur Kasse gehen</a></li>
+			</ul></div>
+		</a></div></div>
+
+	<!-- anmelden/abmelden/registeren -->
+		<div class="headerwarenkorbblock hb1"><div style="position:absolute; left:20px;"><a  class="link" style="color:white; z-index: 3;">
+			<img src="/static/img/user-icon-png-7-transparent.png" alt="biozon" width="30" height="30" align="center" style="padding-top:7;padding-bottom:20" />
+				{% if request.session.is_login %}
+					<input type="button" value="✔" style="width: 25px; height: 25px; border-radius:50%;border: none; color:black; text-color:white;" />
+				{% else %}
+					<input type="button" value="✘" style="width: 25px; height: 25px; border-radius:50%;border: none; color:black; text-color:white;" />
+
+				{% endif %}
+			<div class="downbutton" style="left:-20px;"><ul>
+				{% if request.session.is_login %}
+				<a><h3 align=left style="line-height:40px; padding-left:20px;">Hello,{{ request.session.user_name }}</h3></a>
+				<li><a href="/User_abmelden/"  class="link">abmelden</a></li>
+				<li><a href="/user_Bestellungen/"  class="link">Meine Bestellungen</a></li>
+				{% else %}
+				<li><a href="/User_anmelden/" class="link">anmelden</a></li>
+				<li><a href="/User_Register/" class="link">registeren</a></li>
+				{% endif %}
+
+
+			</ul></div>
+		</a></div></div></div></div>
+
+<!-- Content here -->
+<div align="center" style="position:related; padding-top:160px; padding-width:20% width:80%;">
+
+</div>
+
+<div align="center" style="position:related; padding-top:30px; padding-width:20% width:80%;">
+	<!-- Title -->
+	<div class="ws1"><a>Warenkorb</a></div>
+
+	<!-- Warenkorb -->
+<main>
+	<div class="container">
+		<table border="0" cellspacing = "0" id = "shoppingcartinfo">
+			<thead>
+				<tr>
+					<th width = " 75px" height = "42px">Waren</th>
+					<th width = "400px" height = "42px"></th>
+					<th width = "135px" height = "42px">Preis</th>
+					<th width = "230px" height = "42px">Menge</th>
+					<th width = "135px" height = "42px">Gesamt Preis</th>
+					<th width = "200px" height = "42px">Löschen</th>
+				</tr>
+			</thead>
+
+			<!-- Warenkorb Body -->
+			<tbody>
+
+
+                   {% for ware in waren_in_Einkaufswagen_list %}
+				<tr>
+					<td width = "75px" height = "90px" colspan="2" align="left" valign = "top" style="padding-top:5px;">
+						<div><img src="/static/Waren/{{ware.Ware_Bild}}.jpg" alt="Broccoli" class ="shoppingitem" style="float:left; left:30px;"></div>
+						<div class="shoppingdesc" style="float:left; ">
+							{{ware.Ware_Name}}
+						</div>
+						<div style="clear: both;"></div>
+					</td>
+					<td width = "135px" height = "90px" align="center" valign="top" class="price">{{ware.Ware_Preis}} €</td>
+					<td width = "230px" height = "90px" align="center" valign="top" class="purchasenum ">{{ware.waren_menge}}</td>
+                    {% for key,value in ware_gesamt_preis_dic.items%}
+                        {% if key == ware.Ware_Name %}
+                        <td width = "135px" height = "90px" align="center" valign="top" class="price">{{value}}</td>
+                        {% endif %}
+                    {% endfor %}
+
+                    <td width = "115px" height = "90px" align="center" valign="top" class="operation"><strong><a href="/Waren_delete/?id={{ware.id}}">delete</a></strong></td>
+				</tr>
+				{% endfor %}
+
+
+			</tbody>
+		</table>
+
+
+
+	</div>
+</main>
+
+<div height = "90px">
+	<dl width="100px">
+		<dt></dt>
+		<dd>Zwischensumme ({{waren_gesamt_Menge_in_Einkaufswagen}} Artikel): <strong>{{waren_gesamt_Preis_in_Einkaufswagen}} €</strong></dd>
+		<dd>Verpackung & Versand: <strong>3.99 €</strong></dd>
+		<HR style="border:2 dashed #8a8a5c" width="40%" color=#8a8a5c SIZE=1>
+		<dd>Gesamtbetrag: <strong>{{total_kost}} €</strong></dd>
+		<HR style="border:2 dashed white" width="40%" color=white SIZE=1>
+		<a href="/Bestellung_abgeben_Seite"> <input class="btn" type="submit" value="zur Kasse gehen"></a>
+
+	</dl>
+</div>
+
+
+
+
+
+
+
+</div></body>
+</html>
